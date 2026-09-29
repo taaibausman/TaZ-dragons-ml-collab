@@ -1,0 +1,14 @@
+# Core ML Dependencies
+pandas==3.0.6
+scikit-learn==1.9.1
+numpy==2.5.3
+pyyaml==6.0.3
+joblib==1.6.0
+dvc==3.67.1
+
+# Development & Code Quality Tools
+pytest==9.1.1
+ruff==0.16.9
+pre-commit==4.6.2
+nbstripout==0.9.1
+jupytext==1.19.5
