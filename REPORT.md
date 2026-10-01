@@ -54,9 +54,16 @@ Below is the empirical screenshot showing pre-commit intercepting and blocking a
 ---
 
 ## 📌 Phase 4: Data Versioning with DVC
-- **Status**: Pending
-- **DVC Hash**: *To be updated upon PR merge*
+- **Status**: Completed (PR Merged)
 - **Raw Data Path**: `data/raw/titanic.csv.dvc`
+- **Author**: Zaneeha Afzal (`data/initial-dataset` branch)
+- **Reviewer**: Taaiba Usman
+
+### 📸 Checkpoint Proof: DVC Tracking Raw Dataset
+Below is the screenshot showing the raw dataset `titanic.csv` tracked with DVC alongside its `titanic.csv.dvc` pointer file:
+
+![DVC Data Tracking Screenshot](docs/screenshots/phase4_dvc_tracking.png)
+
 
 ---
 
