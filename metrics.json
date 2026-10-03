@@ -4,7 +4,7 @@
   "recall": 0.4412,
   "f1": 0.4959,
   "roc_auc": 0.7794,
-  "commit_sha": "uncommitted",
+  "commit_sha": "4e780da695367354b4ac1d33330c4a1d45107576",
   "model_type": "random_forest",
   "seed": 42
 }
