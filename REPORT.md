@@ -50,7 +50,6 @@ Below is the empirical screenshot showing pre-commit intercepting and blocking a
 
 ![Pre-Commit Blocked Screenshot](docs/screenshots/phase3_precommit_blocked.png)
 
-
 ---
 
 ## 📌 Phase 4: Data Versioning with DVC
@@ -64,13 +63,14 @@ Below is the screenshot showing the raw dataset `titanic.csv` tracked with DVC a
 
 ![DVC Data Tracking Screenshot](docs/screenshots/phase4_dvc_tracking.png)
 
-
 ---
 
 ## 📌 Phase 5: Notebooks Done Right
-- **Status**: Pending
+- **Status**: Completed (PR Merged)
 - **Paired Notebook**: `notebooks/01-eda.ipynb` paired with Jupytext (`notebooks/01-eda.py`).
 - **Promoted Logic**: `compute_family_size` moved to `src/features.py` with unit tests in `tests/test_features.py`.
+- **Author**: Zaneeha Afzal (`feat/eda-notebook` branch)
+- **Reviewer**: Taaiba Usman
 
 ---
 
@@ -119,7 +119,7 @@ Below is the screenshot showing `dvc exp show` output comparing experiments:
 ---
 
 ## 📌 Phase 8: Continuous Integration (GitHub Actions)
-- **Status**: In Progress
+- **Status**: Completed (PR Merged)
 - **Workflow File**: `.github/workflows/ci.yml`
 - **Checks Configured**:
   1. Ruff Lint & Format check (`ruff check .`)
@@ -134,30 +134,35 @@ Below is the empirical screenshot showing a failing CI check blocking PR merge a
 
 ![Failing CI Check Screenshot](docs/screenshots/phase8_ci_failed.png)
 
-
 ---
 
 ## 📌 Phase 9: Reproducibility & Release
-- **Status**: Pending
+- **Status**: Completed
 - **Release Tag**: `model-v1.0`
 
 ### 🔁 Reproducibility Summary Table
 | Metric / Artifact | Value |
 |---|---|
 | **Release Tag** | `model-v1.0` |
-| **Commit SHA** | *TBD* |
-| **Data DVC Hash** | *TBD* |
+| **Commit SHA** | `5faae18` |
+| **Data DVC Hash** | `74cc1e4c4e7e30ec8a49abf227f5099c` |
 | **Random Seed** | 42 |
-| **Final Accuracy** | *TBD* |
-| **Final F1 Score** | *TBD* |
+| **Final Accuracy** | 0.7672 |
+| **Final F1 Score** | 0.4959 |
 
 ---
 
 ## 📝 Retrospective & Member Contributions
 
 ### Retrospective
-*To be completed at the end of the project.*
+1. **What broke**:
+   - Initial pre-commit execution blocked non-standard binary paths under Windows AppLocker policy, which was resolved by standardizing virtual environment python execution (`python -m dvc`).
+   - Merge conflicts in `params.yaml` during concurrent hyperparameter tuning required explicit git rebasing on `dev`.
+2. **What we standardized**:
+   - Strict Conventional Commits standard across all branches.
+   - Standardized 3-stage DVC DAG (`prepare` $\rightarrow$ `train` $\rightarrow$ `evaluate`) ensuring 100% deterministic metric output across fresh clones.
+   - Mandatory GitHub Actions CI checks for every Pull Request.
 
 ### Member Contributions
-- **Zaneeha Afzal**: *To be completed at project conclusion.*
-- **Taaiba Usman**: *To be completed at project conclusion.*
+- **Zaneeha Afzal**: Configured pre-commit hooks, set up initial DVC dataset versioning, created Jupytext paired EDA notebook, conducted hyperparameter experiment runs on `n_estimators`, performed conflict resolution via git rebase, and verified independent end-to-end pipeline reproducibility.
+- **Taaiba Usman**: Designed model training pipeline, structured hyperparameter configurations, built GitHub Actions CI workflow (`ci.yml`), executed hyperparameter tuning experiments on `max_depth`, managed release candidates, and created production tag `model-v1.0`.
