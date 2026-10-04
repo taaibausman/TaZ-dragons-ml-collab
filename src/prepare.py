@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.features import clean_dataset
+from src.features import apply_imputation, clean_dataset, fit_imputation_values
 from src.utils import load_params, set_seed
 
 
@@ -35,15 +35,32 @@ def prepare_data(
         raise FileNotFoundError(f"Input dataset not found at: {input_path}")
 
     df_raw = pd.read_csv(input_path)
-    df_cleaned = clean_dataset(df_raw, feature_cols=feature_cols, target_col=target_col)
+
+    # Perform structural cleaning and feature selection first.
+    df_cleaned = clean_dataset(
+        df_raw,
+        feature_cols=feature_cols,
+        target_col=target_col,
+    )
 
     stratify_target = (
         df_cleaned[target_col] if stratify_flag and target_col in df_cleaned.columns else None
     )
 
+    # Split BEFORE learning imputation values to prevent data leakage.
     train_df, test_df = train_test_split(
-        df_cleaned, test_size=test_size, random_state=seed, stratify=stratify_target
+        df_cleaned,
+        test_size=test_size,
+        random_state=seed,
+        stratify=stratify_target,
     )
+
+    # Learn preprocessing statistics ONLY from the training data.
+    imputation_values = fit_imputation_values(train_df)
+
+    # Apply the training-derived values to both splits.
+    train_df = apply_imputation(train_df, imputation_values)
+    test_df = apply_imputation(test_df, imputation_values)
 
     os.makedirs(output_dir, exist_ok=True)
     train_path = os.path.join(output_dir, "train.csv")
