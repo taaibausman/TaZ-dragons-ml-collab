@@ -1,0 +1,100 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: C:\Users\HP\anaconda3\python.exe src/prepare.py --input 
+      data/raw/titanic.csv --output-dir data/processed --config params.yaml
+    deps:
+    - path: data/raw/titanic.csv
+      hash: md5
+      md5: 74cc1e4c4e7e30ec8a49abf227f5099c
+      size: 83879
+    - path: src/features.py
+      hash: md5
+      md5: 280aec992c18aafea1d26616cb0ab11b
+      size: 1747
+    - path: src/prepare.py
+      hash: md5
+      md5: d6b3ebcedc0bb7d7f95451a8b145dada
+      size: 2473
+    - path: src/utils.py
+      hash: md5
+      md5: c9cfe61279e7584950273e19df550e51
+      size: 1219
+    params:
+      params.yaml:
+        prepare.features:
+        - Age
+        - Fare
+        - Sex
+        - sibsp
+        - Parch
+        - Pclass
+        - Embarked
+        prepare.target: 2urvived
+        seed: 42
+        split.stratify: true
+        split.test_size: 0.2
+    outs:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 6bceb48304b6451f01f807e034b75668
+      size: 6881
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 65c243c4dc5452048e122466a2849b5a
+      size: 27368
+  train:
+    cmd: C:\Users\HP\anaconda3\python.exe src/train.py --train-data 
+      data/processed/train.csv --model-dir models --config params.yaml
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 65c243c4dc5452048e122466a2849b5a
+      size: 27368
+    - path: src/train.py
+      hash: md5
+      md5: 93495e792c01b0ada09e905d336aa647
+      size: 2935
+    - path: src/utils.py
+      hash: md5
+      md5: c9cfe61279e7584950273e19df550e51
+      size: 1219
+    params:
+      params.yaml:
+        seed: 42
+        train.criterion: gini
+        train.max_depth: 6
+        train.min_samples_split: 2
+        train.model_type: random_forest
+        train.n_estimators: 250
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 5bc3463856e8fcdefe4b670a8cebf616
+      size: 1700281
+  evaluate:
+    cmd: C:\Users\HP\anaconda3\python.exe src/evaluate.py --model-path 
+      models/model.joblib --test-data data/processed/test.csv --metrics-path 
+      metrics.json --config params.yaml
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 6bceb48304b6451f01f807e034b75668
+      size: 6881
+    - path: models/model.joblib
+      hash: md5
+      md5: 5bc3463856e8fcdefe4b670a8cebf616
+      size: 1700281
+    - path: src/evaluate.py
+      hash: md5
+      md5: 5023d68720d40c561ee9af223980c360
+      size: 3019
+    - path: src/utils.py
+      hash: md5
+      md5: c9cfe61279e7584950273e19df550e51
+      size: 1219
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 32f99de662f6e7c5be2fe04557bbd9e1
+      size: 219
