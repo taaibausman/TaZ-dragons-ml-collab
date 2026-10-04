@@ -10,6 +10,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import pandas as pd
+
 from src.features import clean_dataset, compute_family_size
 
 # %%
@@ -23,7 +24,11 @@ print("Raw Dataset Shape:", df_raw.shape)
 
 # %%
 # Clean dataset using reusable function from src/features.py
-df_clean = clean_dataset(df_raw, feature_cols=["Age", "Fare", "Sex", "sibsp", "Parch", "Pclass", "Embarked"], target_col="2urvived")
+df_clean = clean_dataset(
+    df_raw,
+    feature_cols=["Age", "Fare", "Sex", "sibsp", "Parch", "Pclass", "Embarked"],
+    target_col="2urvived",
+)
 print("Cleaned Dataset Shape:", df_clean.shape)
 print("Cleaned Dataset Head:")
 print(df_clean.head())
