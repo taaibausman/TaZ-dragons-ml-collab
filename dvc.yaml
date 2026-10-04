@@ -1,0 +1,45 @@
+stages:
+  prepare:
+    cmd: C:\Users\HP\anaconda3\python.exe src/prepare.py --input data/raw/titanic.csv --output-dir data/processed --config params.yaml
+    deps:
+      - data/raw/titanic.csv
+      - src/prepare.py
+      - src/features.py
+      - src/utils.py
+    params:
+      - seed
+      - split.test_size
+      - split.stratify
+      - prepare.features
+      - prepare.target
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: C:\Users\HP\anaconda3\python.exe src/train.py --train-data data/processed/train.csv --model-dir models --config params.yaml
+    deps:
+      - data/processed/train.csv
+      - src/train.py
+      - src/utils.py
+    params:
+      - seed
+      - train.model_type
+      - train.n_estimators
+      - train.max_depth
+      - train.min_samples_split
+      - train.criterion
+    outs:
+      - models/model.joblib
+
+  evaluate:
+    cmd: C:\Users\HP\anaconda3\python.exe src/evaluate.py --model-path models/model.joblib --test-data data/processed/test.csv --metrics-path metrics.json --config params.yaml
+    deps:
+      - models/model.joblib
+      - data/processed/test.csv
+      - src/evaluate.py
+      - src/utils.py
+    metrics:
+      - metrics.json:
+          cache: false
+
