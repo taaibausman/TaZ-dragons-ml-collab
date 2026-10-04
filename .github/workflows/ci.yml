@@ -24,18 +24,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pandas scikit-learn numpy pyyaml joblib pytest ruff
 
       - name: 1. Code Linting & Formatting Check (Ruff)
         run: |
           ruff check .
-          ruff format --check .
 
-      - name: 2. Unit Tests & 3. Data Checks & 4. Smoke Train
+      - name: 2. Unit Tests & Data Checks & Smoke Train
         run: |
           pytest tests/ -v

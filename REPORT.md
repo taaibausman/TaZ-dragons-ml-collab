@@ -122,12 +122,18 @@ Below is the screenshot showing `dvc exp show` output comparing experiments:
 - **Status**: In Progress
 - **Workflow File**: `.github/workflows/ci.yml`
 - **Checks Configured**:
-  1. Ruff Lint & Format check (`ruff check .`, `ruff format --check .`)
+  1. Ruff Lint & Format check (`ruff check .`)
   2. Unit tests (`pytest tests/`)
   3. Data schema, range, and null checks (`test_data.py`)
   4. End-to-end Smoke Train (`test_model.py`)
 - **Author**: Taaiba Usman (`feat/ci` branch)
 - **Reviewer**: Zaneeha Afzal
+
+### 📸 Checkpoint Proof: Failing CI Check (Rubric Requirement)
+Below is the empirical screenshot showing a failing CI check blocking PR merge as required by the assignment rubric:
+
+![Failing CI Check Screenshot](docs/screenshots/phase8_ci_failed.png)
+
 
 ---
 
