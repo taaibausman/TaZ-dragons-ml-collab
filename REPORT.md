@@ -75,26 +75,59 @@ Below is the screenshot showing the raw dataset `titanic.csv` tracked with DVC a
 ---
 
 ## 📌 Phase 6: Reproducible Pipeline
-- **Status**: Pending
-- **Pipeline Stages**: `prepare` $\rightarrow$ `train` $\rightarrow$ `evaluate` defined in `dvc.yaml`.
+- **Status**: Completed (PR Merged)
+- **Pipeline DAG Stages**: `prepare` $\rightarrow$ `train` $\rightarrow$ `evaluate` defined in `dvc.yaml`.
+- **Author**: Taaiba Usman (`feat/dvc-pipeline` branch)
+- **Reviewer**: Zaneeha Afzal
+
+### 📊 Baseline Pipeline Metrics (`metrics.json`):
+```json
+{
+  "accuracy": 0.7672,
+  "precision": 0.566,
+  "recall": 0.4412,
+  "f1": 0.4959,
+  "roc_auc": 0.7794,
+  "commit_sha": "791eb1b413fd88b362b9a196a47b8d602d0da885",
+  "model_type": "random_forest",
+  "seed": 42
+}
+```
 
 ---
 
 ## 📌 Phase 7: Experiments & Multi-Member Collaboration
-- **Status**: Pending
+- **Status**: Completed (PRs Merged)
+- **Abandoned Experiment Branch**: `exp/zaneeha-n-estimators` (retained in Git history without merging to document experiment drift).
+- **Conflict Resolution**: `params.yaml` merge conflict between `feat/zaneeha-samples-split` and `feat/taaiba-samples-split` resolved via `git rebase dev`.
 
 ### 📊 Experiment Comparison Table (`dvc exp show`)
-| Experiment | Branch / Tag | `max_depth` | `n_estimators` | Accuracy | F1 Score | Winner? |
-|---|---|---|---|---|---|---|
-| Baseline | `dev` | 6 | 100 | 0.7672 | 0.4959 | Baseline |
-| *Exp 1* | `exp/taaiba-max-depth` | *TBD* | *TBD* | *TBD* | *TBD* | *TBD* |
-| *Exp 2* | `exp/zaneeha-n-estimators` | *TBD* | *TBD* | *TBD* | *TBD* | *TBD* |
+Below is the empirical comparison of hyperparameter experiment runs executed across branches:
+
+| Experiment Run | Branch | `n_estimators` | `max_depth` | Accuracy | F1 Score | ROC AUC | Winner / Status |
+|---|---|---|---|---|---|---|---|
+| **Baseline** | `dev` | 100 | 6 | 0.7672 | 0.4874 | 0.7780 | Baseline |
+| **`piano-flux`** | `exp/zaneeha-n-estimators` | **50** | 6 | 0.7634 | **0.4918** | **0.7782** | **Best F1 & ROC AUC** |
+| **`sheen-jive`** | `exp/zaneeha-n-estimators` | 150 | 6 | 0.7672 | 0.4874 | 0.7735 | Evaluated |
+| **`minus-taro`** | `exp/zaneeha-n-estimators` | 250 | 6 | 0.7672 | 0.4874 | 0.7780 | Evaluated |
+
+### 📸 Checkpoint Proof: `dvc exp show` Experiment Comparison Table
+Below is the screenshot showing `dvc exp show` output comparing experiments:
+
+![DVC Exp Show Screenshot](docs/screenshots/phase7_dvc_exp_show.png)
 
 ---
 
 ## 📌 Phase 8: Continuous Integration (GitHub Actions)
-- **Status**: Pending
+- **Status**: In Progress
 - **Workflow File**: `.github/workflows/ci.yml`
+- **Checks Configured**:
+  1. Ruff Lint & Format check (`ruff check .`, `ruff format --check .`)
+  2. Unit tests (`pytest tests/`)
+  3. Data schema, range, and null checks (`test_data.py`)
+  4. End-to-end Smoke Train (`test_model.py`)
+- **Author**: Taaiba Usman (`feat/ci` branch)
+- **Reviewer**: Zaneeha Afzal
 
 ---
 
